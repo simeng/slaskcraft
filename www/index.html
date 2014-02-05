@@ -1,0 +1,226 @@
+<!doctype html>
+<head>
+    <meta charset="UTF-8">
+    <title>Slaskcraft</title>
+    <link href="css/main.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Days+One" rel="stylesheet" type="text/css">
+    <meta name="viewport" content="width=device-width">
+
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <link href="css/d3vis.css" media="screen" rel="stylesheet" type="text/css">
+    <script src="js/d3vis.js"></script>
+</head>
+
+<body>
+    <div class="header">
+        <img src="img/slaskcraft.png" alt="Slaskcraft">
+        <ul class="menu">
+            <li class="item selected">
+                <a href="#home">Forside</a>
+            </li>
+            <li class="item">
+                <a href="#toplist">Toppliste</a>
+            </li>
+            <li class="item">
+                <a href="#graph">Grafer</a>
+            </li>
+            <li class="item">
+                <a href="http://kart.slaskcraft.net/#/230/64/259/-2/0/0">Kart</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="chat">
+        <ul class="online">
+            <li class="label">Pålogget</li>
+            <li class="user none">Ingen</li>
+        </ul>
+        <div class="container">
+            <div class="box">
+                <ul class="lines"></ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+        <div id="home-container" class="selected">
+            <div class="box">
+                <a style="float: right" href="http://www.youtube.com/user/einarjh?feature=watch">
+                    <img src="https://minotar.net/avatar/einarjh/32" />
+                </a>
+                <h2>
+                    <a href="http://www.youtube.com/user/einarjh?feature=watch">
+                        einarjh
+                    </a>
+                </h2>
+                <ul id="einarjh" class="youtubefeed">
+                </ul>
+            </div>
+
+            <div class="box">
+                <a style="float: right" href="http://www.youtube.com/user/atilla9000?feature=watch">
+                    <img src="https://minotar.net/avatar/atilla9000/32" />
+                </a>
+                <h2>
+                    <a href="http://www.youtube.com/user/atilla9000?feature=watch">
+                        atilla
+                    </a>
+                </h2>
+                <ul id="atilla" class="youtubefeed">
+                </ul>
+            </div>
+            <div class="box">
+                <a style="float: right" href="http://www.youtube.com/user/sakarias?feature=watch">
+                    <img src="https://minotar.net/avatar/sakarias/32" />
+                </a>
+                <h2>
+                    <a href="http://www.youtube.com/user/sakarias?feature=watch">
+                        sakarias
+                    </a>
+                </h2>
+                <ul id="sakarias" class="youtubefeed">
+                </ul>
+            </div>
+            <div class="box">
+                <a style="float: right" href="http://www.youtube.com/user/Ueland85?feature=watch">
+                    <img src="https://minotar.net/avatar/ueland/32" />
+                </a>
+                <h2>
+                    <a href="http://www.youtube.com/user/Ueland85?feature=watch">
+                        Ueland
+                    </a>
+                </h2>
+                <ul id="ueland" class="youtubefeed">
+                </ul>
+            </div>
+            <div class="box">
+                <a style="float: right" href="http://www.youtube.com/channel/UCUTpHr1U4fVNOavmKKIL9KA">
+                    <img src="https://minotar.net/avatar/simeng/32" />
+                </a>
+                <h2>
+                    <a href="http://www.youtube.com/channel/UCUTpHr1U4fVNOavmKKIL9KA?feature=watch">
+                        simeng
+                    </a>
+                </h2>
+                <ul id="simeng" class="youtubefeed">
+                </ul>
+            </div>
+        </div>
+        <div id="toplist-container">
+        </div>
+        <div id="graph-container">
+        </div>
+    </div>
+<script type="text/javascript">
+    function refreshOnline() {
+        var chat = d3.select(".chat");
+        var online = chat.select(".online");
+        d3.json("http://minecraft.slaskete.net/json/users.json", function (error, response) {
+            online.select(".user").remove();
+            for (var i in response) {
+                var nick = response[i];
+                var user = d3.select(document.createElement('li')).classed("user", true);
+                var face = d3.select(document.createElement('img')).classed("face", true).attr("src", "https://minotar.net/helm/" + encodeURIComponent(nick) + "/32").attr("title", nick).attr("alt", nick);
+                user.append(face);
+                online.append(user);
+            }
+            if (response.length == 0) {
+                online.append('li').classed("user", true).classed("none", true).text("Ingen");
+            }
+        });
+    }
+        
+    function refreshChat() {
+        var chat = d3.select(".chat");
+        d3.json("http://minecraft.slaskete.net/json/chat.json", function (error, response) {
+            var lines = chat.select(".lines");
+            lines.empty();
+            for (var i in response) {
+                var item = response[i];
+
+                if (item.action == 'new_day' || item.action == 'said' || item.action == 'action') 
+                    continue;
+
+                var line = lines.append("li");
+                line.classed("line", true).classed(item.action, true);
+
+                var id = line.append("div");
+                id.classed("id", true);
+                id.append('div').classed("timestamp", true).text(item.timestamp);
+                id.append('img').classed("face", true).attr("src", "https://minotar.net/helm/" + encodeURIComponent(item.nick) + "/16");
+                id.append('span').classed("nick", true).text(item.nick);
+                
+                if (item.action == 'gained')
+                    line.append('div').classed("achievement", true).text(item.message);
+                else if (item.action != 'join' && item.action != 'leave')
+                    line.append('div').classed("message", true).text(item.message);
+            }
+        });
+    }
+    setInterval(refreshOnline, 30000);
+    setInterval(refreshChat, 30000);
+    refreshOnline();
+    refreshChat();
+
+    function refreshFeed(feed, elem) {
+        d3.json("http://gdata.youtube.com/feeds/api/playlists/" + encodeURIComponent(feed) + "?v=2&alt=json&orderby=published&max-results=10", function (error, response) {
+            var videos = elem;
+            for (var i in response.feed.entry) {
+                var item = response.feed.entry[i];
+                var date = new Date(item.published.$t);
+                var video = videos.append('li').classed("video", true);
+                dateString = date.toLocaleString();
+                video.append('a').attr('href', item.media$group.media$player.url).append('img').classed("thumb", true).attr('src', item.media$group.media$thumbnail[0].url);
+                video.append('div').classed("date", true).text(dateString);
+                video.append('a').attr('href', item.media$group.media$player.url).append('span').classed("title", true).text(item.title.$t);
+            }
+        });
+    }
+
+    refreshFeed("PLgZTE3QuO6ciOrwswRjKrdWaxmwl6Rju-", d3.select("#einarjh"));
+    refreshFeed("PLJ-BangiE09Km8BdY6LOIk0eI8aiaxy2X", d3.select("#atilla"));
+    refreshFeed("PLv1yKTdPlkmNpcXyUsEsD67OyW6pQNpe8", d3.select("#sakarias"));
+    refreshFeed("PLpx91rTNMa_NvPVxIh9MSVx4N0rUOtWWw", d3.select("#ueland"));
+    refreshFeed("PLhkTdvJLhSE1ZCRQyd7cgH3IDbUwaaj2z", d3.select("#simeng"));
+
+    function loadTopList(id) {
+        var node = d3.select(id);
+        if (node.length == 0) {
+            d3.json("json/stats/top_lists.json", function (error, lists) {
+                for (var list in lists) {
+                    var box = d3.select(document.createElement("div>")).attr("class", "box");
+                    box.append(document.createElement("h2").text(list));
+
+                    var listElem = document.createElement("ol");
+                    for (var i in lists[list]) {
+                        var item = lists[list][i];
+
+                        var itemElem = document.createElement("li");
+                        var imageElem = d3.select(document.createElement("img")).addClass("face").attr("src", "https://minotar.net/helm/" + item.player + "/16").attr("title", item.player).attr("alt", item.player);
+                        var playerElem = d3.select(document.createElement("span")).addClass("player").text(item.player);
+                        var valueElem = d3.select(document.createElement("span")).addClass("value").text(item.value);
+                        itemElem.append(imageElem);
+                        itemElem.append(playerElem);
+                        itemElem.append(valueElem);
+                        listElem.append(itemElem);
+                    }
+
+                    box.append(listElem);
+                    node.append(box);
+                }
+            });
+        }
+    }
+
+    loadTopList("#toplist-container");
+    d3Vis("#graph-container");
+</script>
+    <p>
+        <div class="footer">&nbsp;</div>
+    </p>
+
+    <!-- Google Analytics --> 
+    <script> (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o), m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m) })(window,document,'script','//www.google-analytics.com/analytics.js','ga'); ga('create', 'UA-45629478-1'); // Erstatt med din egen område-ID. 
+    ga('send', 'pageview'); </script>
+    <!-- End Google Analytics -->
+</body>
