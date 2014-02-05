@@ -1,0 +1,333 @@
+/*
+ *                          Main  , 2nd   , Dark  , Light , Light
+ * Primary colors (green):  74BE32, 658F40, 437C10, 9DDF63, AFDF84
+ * Secondary A (orange):    D48738, 9F7447, 8A4F12, EAAA68, EABB8B
+ * Secondary B (purple):    602D8F, 51346B, 380F5D, 9661C7, A37CC7
+ */
+
+.fg1-1 { color: #74BE32; }
+.bg1-1 { background-color: #74BE32; }
+.fg1-2 { color: #658F40; }
+.bg1-2 { background-color: #658F40; }
+.fg1-3 { color: #437C10; }
+.bg1-3 { background-color: #437C10; }
+.fg1-4 { color: #9DDF63; }
+.bg1-4 { background-color: #9DDF63; }
+.fg1-5 { color: #AFDF84; }
+.bg1-5 { background-color: #AFDF84; }
+
+.fg2-1 { color: #D48738; }
+.bg2-1 { background-color: #D48738; }
+.fg2-2 { color: #9F7447; }
+.bg2-2 { background-color: #9F7447; }
+.fg2-3 { color: #8A4F12; }
+.bg2-3 { background-color: #8A4F12; }
+.fg2-4 { color: #EAAA68; }
+.bg2-4 { background-color: #EAAA68; }
+.fg2-5 { color: #EABB8B; }
+.bg2-5 { background-color: #EABB8B; }
+
+.fg3-1 { color: #602D8F; }
+.bg3-1 { background-color: #602D8F; }
+.fg3-2 { color: #51346B; }
+.bg3-2 { background-color: #51346B; }
+.fg3-3 { color: #380F5D; }
+.bg3-3 { background-color: #380F5D; }
+.fg3-4 { color: #9661C7; }
+.bg3-4 { background-color: #9661C7; }
+.fg3-5 { color: #A37CC7; }
+.bg3-5 { background-color: #A37CC7; }
+
+@media (max-width: 725px) {
+	* {
+		-moz-box-sizing: padding-box;
+		box-sizing: padding-box;
+	}
+	.header {
+		width: 100%;
+	}
+	.header img {
+		width: 100%;
+	}
+	.box {
+		width: 100%;
+	}
+	.chat {
+		width: 100% !important;
+	}
+	.chat .box {
+		height: auto !important;
+		overflow: auto !important;
+	}
+	.youtubefeed .video {
+		width: auto !important;
+	}
+}
+
+body {
+  margin: 0px;
+}
+
+div.header {
+	padding: 10px 0 0 0;
+	background-color: #658F40;
+	text-align: center;
+}
+
+.header .menu {
+	list-style-type: none;
+	padding-left: 0;
+	overflow: auto;
+	text-align: left;
+	margin: 5px 0 0 5px;
+}
+
+.header .menu .item.selected {
+	border-bottom: 0;
+	background: #fff;
+	margin-bottom: 0;
+}
+
+.header .menu .item.selected a {
+	color: #000;
+}
+
+.header .menu .item {
+	display: inline-block;
+	font-family: 'Days One', sans-serif;
+	padding: 2px 5px;
+	border-radius: 5px 5px 0 0;
+	background: #333;
+	font-size: 12px;
+	margin-bottom: -2px;
+}
+.header .menu .item a {
+	color: white;
+	text-decoration: none;
+}
+
+.content>div.selected {
+	display: block;
+}
+.content>div {
+	display: none;
+}
+.content {
+	max-width: 1000px;
+}
+
+.content .box h2 a {
+	color: black;
+	text-decoration: none;
+}
+.content .box h2 {
+	margin: 0;
+}
+.content .box {
+	float: left;
+	padding: 10px;
+	margin: 7px;
+	background: #ddd;
+	border-radius: 7px;
+}
+
+div.footer {
+
+}
+
+/* Video feed styles */
+
+.youtubefeed {
+	list-style-type: none;
+	padding-left: 0;
+	margin-top: 10px;
+}
+.youtubefeed .video {
+	font-size: 12px;
+	width: 280px;
+}
+.youtubefeed .video a:hover {
+	text-decoration: underline;
+}
+.youtubefeed .video a {
+	text-decoration: none;
+}
+.youtubefeed .video .title {
+	font-size: 14px;
+}
+.youtubefeed .video .date {
+	color: #777;
+	float: right;
+	padding: 0 0 5px 5px;
+	width: 55px;
+	text-align: right;
+}
+.youtubefeed .video {
+	background: #eee;
+	padding: 7px;
+	overflow: auto;
+	margin: 7px 0;
+}
+
+.youtubefeed .video .thumb {
+	border: none;
+	float: left;
+	padding-right: 10px;
+	width: 60px;
+}
+
+/* Chat styles */
+
+.chat {
+	float: right;
+	width: 300px;
+	border: 1px solid black;
+	background-color: #608a32;
+}
+.chat .online {
+	list-style-type: none;
+	margin: 0;
+	padding-left: 0;
+	font-family: 'Days One',sans-serif;
+	font-size: 12px;
+	padding: 4px;
+	color: white;
+	background: #333;
+	overflow: auto;
+}
+.chat .online .label {
+	margin-right: 10px;
+}
+.chat .online .user.none {
+	color: red;
+}
+.chat .online .user {
+	float: left;
+	margin-left: 1px;
+}
+.chat .box {
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	width: 100%;
+	padding-left: 10px;
+	padding-right: 10px;
+	border-left: 1px solid black;
+	font-family: verdana;
+	font-size: 12px;
+}
+.chat .shadow {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 20px;
+	background: -moz-linear-gradient(top, rgba(0,0,0,0.5), transparent);
+}
+.chat .lines {
+	list-style-type: none;
+	padding-left: 0;
+	margin: 0;
+}
+.chat .line.join,
+.chat .line.leave {
+	background: #ccc;
+}
+.chat .line.died .face {
+	display: none;
+}
+.chat .line .id {
+	padding-top: 2px;
+}
+.chat .line .id .nick {
+	vertical-align: top;
+	margin-top: 2px;
+	display: inline-block;
+}
+.chat .line .id:before {
+	font-weight: bold;
+	padding-right: 5px;
+	font-size: 24px;
+	line-height: 14px;
+}
+.chat .line .id:after {
+	font-weight: bold;
+	font-size: 24px;
+	line-height: 14px;
+	padding-left: 5px;
+}
+.chat .line.gained .id:after {
+	content: "★";
+	color: yellow;
+}
+.chat .line.gained .id:before {
+	content: "★";
+	color: yellow;
+}
+.chat .line .achievement:before {
+	content: "Achievement Unlocked:";
+	display: block;
+	color: white;
+	font-weight: normal;
+	font-size: 10px;
+}
+.chat .line .achievement {
+	margin-top: 5px;
+	background: #555;
+	padding: 5px;
+	color: yellow;
+	font-size: 14px;
+	font-weight: bold;
+}
+.chat .line.gained {
+	color: white;
+	background: black;
+}
+.chat .line.died .id:after {
+	content: "☠";
+	color: red;
+}
+.chat .line.died .id:before {
+	content: "☠";
+	color: red;
+}
+.chat .line.leave .id:before {
+	content: "←";
+	color: red;
+}
+.chat .line.join .id:before {
+	content: "→";
+	color: green;
+}
+.chat .line {
+	padding: 5px;
+	margin: 5px 0;
+	background: #eee;
+}
+.chat .timestamp {
+	float: right;
+	color: #666;
+}
+.chat .face {
+	padding: 0 5px 0 0;
+}
+.chat .message {
+	font-size: 14px;
+	background: #fff;
+	padding: 5px;
+	border-radius: 0 7px 7px 7px;
+	margin: 5px 0;
+}
+
+#toplist-container .player {
+	padding: 0 5px;
+}
+#toplist-container .value:before {
+	content: "(";
+}
+#toplist-container .value:after {
+	content: ")";
+}
+#toplist-container .value {
+	color: #888;
+	font-size: 10px;
+}
