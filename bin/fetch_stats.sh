@@ -1,7 +1,7 @@
 #!/bin/bash
 BASE=`dirname $0`
 
-cd $BASE/../json/stats/
+cd $BASE/../www/json/stats/
 wget -q -r --no-parent --reject "index.html*" 'http://minecraft.slaskete.net/json/stats/'
 
 if [ ! -e archive/allplayers-`date -d yesterday +%Y-%m-%d`.json ]; then
