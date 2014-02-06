@@ -113,48 +113,55 @@
     </div>
 <script type="text/javascript">
     function refreshOnline() {
-        var chat = d3.select(".chat");
-        var online = chat.select(".online");
         d3.json("http://minecraft.slaskete.net/json/users.json", function (error, response) {
-            online.select(".user").remove();
-            for (var i in response) {
-                var nick = response[i];
-                var user = d3.select(document.createElement('li')).classed("user", true);
-                var face = d3.select(document.createElement('img')).classed("face", true).attr("src", "https://minotar.net/helm/" + encodeURIComponent(nick) + "/32").attr("title", nick).attr("alt", nick);
-                user.append(face);
-                online.append(user);
-            }
-            if (response.length == 0) {
-                online.append('li').classed("user", true).classed("none", true).text("Ingen");
-            }
+            var online = d3.select(".chat .online");
+            online.select('.user').remove();
+            var user = online.selectAll(".user").data(response).enter().append('li').classed('user', true);
+            user.append('img').classed("face", true).attr("src", function (nick) { return "https://minotar.net/helm/" + encodeURIComponent(nick) + "/32"; }).attr("title", function (nick) { return nick; }).attr("alt", function (nick) { return nick; });
         });
     }
         
     function refreshChat() {
-        var chat = d3.select(".chat");
         d3.json("http://minecraft.slaskete.net/json/chat.json", function (error, response) {
-            var lines = chat.select(".lines");
-            lines.empty();
-            for (var i in response) {
-                var item = response[i];
+            var lines = d3.select(".chat .lines").selectAll('li');
+            lines = lines.data(response.filter(function (item) {
+                return item.action != 'new_day' && 
+                    item.action != 'said' && 
+                    item.action != 'action';
+            })).enter().append('li');
 
-                if (item.action == 'new_day' || item.action == 'said' || item.action == 'action') 
-                    continue;
+            lines.attr("class", function (item, i) { 
+                return item.action ? "line " + item.action : "line"; 
+            });
 
-                var line = lines.append("li");
-                line.classed("line", true).classed(item.action, true);
+            var id = lines.append("div");
+            id.classed("id", true);
 
-                var id = line.append("div");
-                id.classed("id", true);
-                id.append('div').classed("timestamp", true).text(item.timestamp);
-                id.append('img').classed("face", true).attr("src", "https://minotar.net/helm/" + encodeURIComponent(item.nick) + "/16");
-                id.append('span').classed("nick", true).text(item.nick);
-                
-                if (item.action == 'gained')
-                    line.append('div').classed("achievement", true).text(item.message);
-                else if (item.action != 'join' && item.action != 'leave')
-                    line.append('div').classed("message", true).text(item.message);
-            }
+            id.append('div').classed("timestamp", true).text(function (item) { 
+                return item.timestamp; 
+            });
+
+            id.append('img').classed("face", true).attr("src", function (item) {
+                return "https://minotar.net/helm/" + encodeURIComponent(item.nick) + "/16" 
+            });
+
+            id.append('span').classed("nick", true).text(function (item) { 
+                return item.nick 
+            });
+            
+            lines.filter(function (item) { 
+                return item.action == 'gained'; 
+            }).append('div').classed("achievement", true).text(function (item) {
+                return item.message; 
+            });
+
+            lines.filter(function (item) { 
+                return item.action != 'gained' && 
+                    item.action != 'join' && 
+                    item.action != 'leave'; 
+            }).append('div').classed("message", true).text(function (item) { 
+                return item.message; 
+            });
         });
     }
     setInterval(refreshOnline, 30000);
