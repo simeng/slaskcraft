@@ -33,7 +33,6 @@
     <div class="chat">
         <ul class="online">
             <li class="label">Pålogget</li>
-            <li class="user none">Ingen</li>
         </ul>
         <div class="container">
             <div class="box">
@@ -114,9 +113,10 @@
 <script type="text/javascript">
     function refreshOnline() {
         d3.json("http://minecraft.slaskete.net/json/users.json", function (error, response) {
+            if (response.length == 0) 
+                response = [ 'Ingen' ];
             var online = d3.select(".chat .online");
-            online.select('.user').remove();
-            var user = online.selectAll(".user").data(response).enter().append('li').classed('user', true);
+            var user = online.selectAll(".user").data(response).enter().append('li').classed('user', true).classed('none', function (nick) { return nick == 'Ingen'; });
             user.append('img').classed("face", true).attr("src", function (nick) { return "https://minotar.net/helm/" + encodeURIComponent(nick) + "/32"; }).attr("title", function (nick) { return nick; }).attr("alt", function (nick) { return nick; });
         });
     }
@@ -191,33 +191,46 @@
     refreshFeed("PLhkTdvJLhSE1ZCRQyd7cgH3IDbUwaaj2z", d3.select("#simeng"));
 
     function loadTopList(id) {
-        var node = d3.select(id);
-        if (node.length == 0) {
+        if (document.querySelector(id).children.length == 0) {
             d3.json("json/stats/top_lists.json", function (error, lists) {
+                var node = d3.select(id);
                 for (var list in lists) {
-                    var box = d3.select(document.createElement("div>")).attr("class", "box");
-                    box.append(document.createElement("h2").text(list));
+                    var box = node.append('div').classed('box', true);
+                    box.append("h2").text(list);
 
-                    var listElem = document.createElement("ol");
-                    for (var i in lists[list]) {
-                        var item = lists[list][i];
-
-                        var itemElem = document.createElement("li");
-                        var imageElem = d3.select(document.createElement("img")).addClass("face").attr("src", "https://minotar.net/helm/" + item.player + "/16").attr("title", item.player).attr("alt", item.player);
-                        var playerElem = d3.select(document.createElement("span")).addClass("player").text(item.player);
-                        var valueElem = d3.select(document.createElement("span")).addClass("value").text(item.value);
-                        itemElem.append(imageElem);
-                        itemElem.append(playerElem);
-                        itemElem.append(valueElem);
-                        listElem.append(itemElem);
-                    }
-
-                    box.append(listElem);
-                    node.append(box);
+                    var itemElem = box.append('ol').selectAll('li').data(lists[list]).enter().append('li');
+                    itemElem.append("img").classed("face", true).attr("src", function (item) { return "https://minotar.net/helm/" + item.player + "/16"; }).attr("title", function (item) { return item.player; }).attr("alt", function (item) { return item.player; });
+                    itemElem.append("span").classed("player", true).text(function(item) { return item.player; });
+                    itemElem.append("span").classed("value", true).text(function(item) { return item.value; });
                 }
             });
         }
     }
+
+    function selectMenuItem(item) {
+        var menu = d3.select(item.parentNode.parentNode);
+        menu.selectAll(".selected").classed("selected", false);
+        d3.select(item.parentNode).classed("selected", true);
+		d3.selectAll(".content>.selected").classed("selected", false);
+
+		var selected = d3.select(item).attr("href");
+		d3.select(selected + "-container").classed("selected", true);
+
+		if (selected == "#toplist")
+			loadTopList("#toplist-container");
+		if (selected == "#graph")
+			d3Vis("#graph-container");
+    }
+
+	d3.selectAll(".menu a").on("click", function (evt) {
+        selectMenuItem(this);
+	});
+	if (location.hash == "#toplist") {
+		selectMenuItem(d3.select('.menu a[href="#toplist"]')[0][0]);
+    }
+	if (location.hash == "#graph") {
+		selectMenuItem(d3.select('.menu a[href="#graph"]')[0][0]);
+	}
 
     loadTopList("#toplist-container");
     d3Vis("#graph-container");
