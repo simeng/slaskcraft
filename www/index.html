@@ -3,7 +3,7 @@
     <meta charset="UTF-8">
     <title>Slaskcraft</title>
     <link href="css/main.css" media="screen" rel="stylesheet" type="text/css">
-    <link href="http://fonts.googleapis.com/css?family=Days+One" rel="stylesheet" type="text/css">
+    <!-- <link href="http://fonts.googleapis.com/css?family=Days+One" rel="stylesheet" type="text/css"> -->
     <meta name="viewport" content="width=device-width">
 
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
@@ -23,6 +23,9 @@
             </li>
             <li class="item">
                 <a href="#graph">Grafer</a>
+            </li>
+            <li class="item">
+                <a href="#download">Nedlastning</a>
             </li>
             <li class="item">
                 <a href="http://kart.slaskcraft.net/#/230/64/259/-2/0/0">Kart</a>
@@ -109,12 +112,52 @@
         </div>
         <div id="graph-container">
         </div>
+        <div id="download-container" class="page">
+            <h2>Last ned verdenfilen til en tidligere sesong med Slaskcraft</h2>
+            <a href="http://nedlasting.slaskcraft.net/Slaskcraft%20Sesong%201.zip">Slaskcraftverden, sesong 1</a> (338 MB)
+            <h3>Hvordan installere:</h3>
+            <ul class="howto">
+                <li>
+                    <img src="img/howto/01.png" />
+                </li>
+                <li>
+                    <img src="img/howto/02.png" />
+                </li>
+                <li>
+                    <img src="img/howto/03.png" />
+                </li>
+                <li>
+                    <p>Nå får vi opp ressurspakkemappen, men vi vil finne &quot;saves&quot;-mappen så vi må gå opp et hakk til &quot;.minecraft&quot;</p>
+                    <img src="img/howto/04.png" />
+                </li>
+                <li>
+                    <p>Her ser vi &quot;saves&quot;-mappen vi er ute etter.</p>
+                    <img src="img/howto/05.png" />
+                </li>
+                <li>
+                    <p>Flytt &quot;Slaskcraft Sesong 1&quot;-mappen fra zipfilen og inn i &quot;saves&qout;</p>
+                    <img src="img/howto/06.png" />
+                </li>
+                <li>
+                    <p>Det var alt! Da kan vi gå tilbake til enkeltspiller.</p>
+                    <img src="img/howto/07.png" />
+                </li>
+                <li>
+                    <img src="img/howto/08.png" />
+                </li>
+                <li>
+                    <img src="img/howto/09.png" />
+                </li>
+                <li>
+                    <p>Så finner vi verdenen i lista.</p>
+                    <img src="img/howto/10.png" />
+                </li>
+            </ul>
+        </div>
     </div>
 <script type="text/javascript">
     function refreshOnline() {
         d3.json("http://minecraft.slaskete.net/json/users.json", function (error, response) {
-            if (response.length == 0) 
-                response = [ 'Ingen' ];
             var online = d3.select(".chat .online");
             var user = online.selectAll(".user").data(response).enter().append('li').classed('user', true).classed('none', function (nick) { return nick == 'Ingen'; });
             user.append('img').classed("face", true).attr("src", function (nick) { return "https://minotar.net/helm/" + encodeURIComponent(nick) + "/32"; }).attr("title", function (nick) { return nick; }).attr("alt", function (nick) { return nick; });
