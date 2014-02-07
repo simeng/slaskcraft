@@ -268,12 +268,8 @@
 	d3.selectAll(".menu a").on("click", function (evt) {
         selectMenuItem(this);
 	});
-	if (location.hash == "#toplist") {
-		selectMenuItem(d3.select('.menu a[href="#toplist"]')[0][0]);
-    }
-	if (location.hash == "#graph") {
-		selectMenuItem(d3.select('.menu a[href="#graph"]')[0][0]);
-	}
+    if (location.hash.substring(0,1) == "#") 
+		selectMenuItem(d3.select('.menu a[href="' + location.hash + '"]')[0][0]);
 
     loadTopList("#toplist-container");
     d3Vis("#graph-container");
