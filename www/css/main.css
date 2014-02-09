@@ -146,6 +146,7 @@ div.footer {
 	list-style-type: none;
 	padding-left: 0;
 	margin-top: 10px;
+    overflow: auto;
 }
 .youtubefeed .video {
 	font-size: 12px;
@@ -341,4 +342,27 @@ div.footer {
 .howto {
     list-style-type: none;
     padding-left: 0;
+}
+
+.content .latest-episodes {
+    float: none;
+    border-radius: 0;
+    overflow: auto;
+    background: none;
+    margin-bottom: 0;
+    padding: 0;
+}
+.content .latest-episodes .video {
+    float: left;
+    margin-right: 10px;
+    border-radius: 5px;
+    background: #ddd;
+}
+
+.content .latest-episodes .youtubefeed {
+    margin: 0;
+}
+
+.hidden {
+    display: none;
 }

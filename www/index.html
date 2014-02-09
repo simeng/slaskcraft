@@ -46,6 +46,13 @@
 
     <div class="content">
         <div id="home-container" class="selected">
+            <div class="box hidden latest-episodes">
+                <h2>
+                    Siste ukens episoder
+                </h2>
+                <ul id="latest-episodes" class="youtubefeed">
+                </ul>
+            </div>
             <div class="box">
                 <a style="float: right" href="http://www.youtube.com/user/einarjh?feature=watch">
                     <img src="https://minotar.net/avatar/einarjh/32" />
@@ -215,14 +222,25 @@
     function refreshFeed(feed, elem) {
         d3.json("http://gdata.youtube.com/feeds/api/playlists/" + encodeURIComponent(feed) + "?v=2&alt=json&orderby=published&max-results=10", function (error, response) {
             var videos = elem;
+            var latest = d3.select("#latest-episodes");
+            var now = new Date();
             for (var i in response.feed.entry) {
                 var item = response.feed.entry[i];
                 var date = new Date(item.published.$t);
+                var daysOld = (now.getTime() - date.getTime()) / 86400000;
                 var video = videos.append('li').classed("video", true);
                 dateString = date.toLocaleString();
                 video.append('a').attr('href', item.media$group.media$player.url).append('img').classed("thumb", true).attr('src', item.media$group.media$thumbnail[0].url);
                 video.append('div').classed("date", true).text(dateString);
                 video.append('a').attr('href', item.media$group.media$player.url).append('span').classed("title", true).text(item.title.$t);
+
+                if (daysOld < 7) {
+                    d3.select(latest.node().parentNode).classed("hidden", false);
+                    latest = latest.append('li').classed("video", true);
+                    latest.append('a').attr('href', item.media$group.media$player.url).append('img').classed("thumb", true).attr('src', item.media$group.media$thumbnail[0].url);
+                    latest.append('div').classed("date", true).text(dateString);
+                    latest.append('a').attr('href', item.media$group.media$player.url).append('span').classed("title", true).text(item.title.$t);
+                }
             }
         });
     }
