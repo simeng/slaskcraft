@@ -2,6 +2,7 @@
 
 import json
 import os
+import random
 
 base_dir = os.path.dirname(__file__)
 
@@ -29,6 +30,9 @@ top_list = {
 	"mined_lapis_ore": get_top_list(players, "stat.mineBlock.21")
 }
 
-open(os.path.join(base_dir, "../www/json/players.json"), "w+").write(json.dumps(players.keys()))
+non_cam_players = [player for player in players if 'stat.craftItem.58' in players[player]]
+random.shuffle(non_cam_players)
+
+open(os.path.join(base_dir, "../www/json/players.json"), "w+").write(json.dumps(non_cam_players))
 
 open(os.path.join(base_dir, "../www/json/stats/top_lists.json"), "w+").write(json.dumps(top_list))

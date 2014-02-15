@@ -158,10 +158,10 @@
      * Update the who is online from minecraft export
      */
     function refreshOnline() {
-        d3.json("http://minecraft.slaskete.net/json/users.json", function (error, response) {
-            var online = d3.select(".chat .online");
-            var user = online.selectAll(".user").data(response).enter().append('li').classed('user', true).classed('none', function (nick) { return nick == 'Ingen'; });
-            user.append('img').classed("face", true).attr("src", function (nick) { return "https://minotar.net/helm/" + encodeURIComponent(nick) + "/32"; }).attr("title", function (nick) { return nick; }).attr("alt", function (nick) { return nick; });
+        d3.json("http://minecraft.slaskete.net/json/users.json", function (error, online_players) {
+            d3.selectAll(".players .player").classed("online", function (elem) {
+                return online_players.some(function (player) { return player == elem; });
+            });
         });
     }
         
@@ -212,6 +212,18 @@
         });
     }
 
+    function loadPlayerLinks() {
+        d3.json("/json/players.json", function(err, players) {
+            var player = d3.select(".players").selectAll(".player").data(players).enter()
+                .append("li").classed("player", true);
+
+            player.append("img").attr("src", function (nick) { return "https://minotar.net/helm/" + encodeURIComponent(nick) + "/32"; });
+
+            player.attr("title", function(nick) { return nick });
+            refreshOnline();
+        });
+    }
+
     /**
      * Load video feeds from youtube
      */
@@ -222,6 +234,8 @@
             return;
 
         d3.json("http://gdata.youtube.com/feeds/api/playlists/" + encodeURIComponent(feed) + "?v=2&alt=json&orderby=published&max-results=10", function (error, response) {
+            if (!response)
+                return;
             var latest_eps = d3.select("#latest-episodes");
             var now = new Date();
             for (var i in response.feed.entry) {
@@ -253,9 +267,9 @@
             selectMenuItem(d3.select('.menu a[href="' + location.hash + '"]')[0][0]);
         d3.selectAll(".youtubefeed").each(refreshFeed);
 
+        loadPlayerLinks();
         setInterval(refreshOnline, 30000);
         setInterval(refreshChat, 30000);
-        refreshOnline();
         refreshChat();
     });
 })();
