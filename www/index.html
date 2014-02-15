@@ -7,8 +7,7 @@
     <meta name="viewport" content="width=device-width">
 
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-    <link href="css/d3vis.css" media="screen" rel="stylesheet" type="text/css">
-    <script src="js/d3vis.js"></script>
+    <script src="js/main.js"></script>
 </head>
 
 <body>
@@ -46,6 +45,8 @@
 
     <div class="content">
         <div id="home-container" class="selected">
+            <ul class="players">
+            </ul>
             <h2>
                 Nye episoder de siste to ukene
             </h2>
@@ -65,7 +66,7 @@
                         einarjh
                     </a>
                 </h3>
-                <ul id="einarjh" class="youtubefeed">
+                <ul id="einarjh" class="youtubefeed" data-id="PLgZTE3QuO6ciOrwswRjKrdWaxmwl6Rju-">
                 </ul>
             </div>
 
@@ -78,7 +79,7 @@
                         atilla
                     </a>
                 </h3>
-                <ul id="atilla" class="youtubefeed">
+                <ul id="atilla" class="youtubefeed" data-id="PLJ-BangiE09Km8BdY6LOIk0eI8aiaxy2X">
                 </ul>
             </div>
             <div class="box">
@@ -90,7 +91,7 @@
                         sakarias
                     </a>
                 </h3>
-                <ul id="sakarias" class="youtubefeed">
+                <ul id="sakarias" class="youtubefeed" data-id="PLv1yKTdPlkmNpcXyUsEsD67OyW6pQNpe8">
                 </ul>
             </div>
             <div class="box">
@@ -102,7 +103,7 @@
                         Ueland
                     </a>
                 </h3>
-                <ul id="ueland" class="youtubefeed">
+                <ul id="ueland" class="youtubefeed" data-id="PLpx91rTNMa_NvPVxIh9MSVx4N0rUOtWWw">
                 </ul>
             </div>
             <div class="box">
@@ -114,7 +115,7 @@
                         simeng
                     </a>
                 </h3>
-                <ul id="simeng" class="youtubefeed">
+                <ul id="simeng" class="youtubefeed" data-id="PLhkTdvJLhSE1ZCRQyd7cgH3IDbUwaaj2z">
                 </ul>
             </div>
         </div>
@@ -165,136 +166,7 @@
             </ul>
         </div>
     </div>
-<script type="text/javascript">
-    function refreshOnline() {
-        d3.json("http://minecraft.slaskete.net/json/users.json", function (error, response) {
-            var online = d3.select(".chat .online");
-            var user = online.selectAll(".user").data(response).enter().append('li').classed('user', true).classed('none', function (nick) { return nick == 'Ingen'; });
-            user.append('img').classed("face", true).attr("src", function (nick) { return "https://minotar.net/helm/" + encodeURIComponent(nick) + "/32"; }).attr("title", function (nick) { return nick; }).attr("alt", function (nick) { return nick; });
-        });
-    }
-        
-    function refreshChat() {
-        d3.json("http://minecraft.slaskete.net/json/chat.json", function (error, response) {
-            var lines = d3.select(".chat .lines").selectAll('li');
-            lines = lines.data(response.filter(function (item) {
-                return item.action != 'new_day' && 
-                    item.action != 'said' && 
-                    item.action != 'action';
-            })).enter().append('li');
 
-            lines.attr("class", function (item, i) { 
-                return item.action ? "line " + item.action : "line"; 
-            });
-
-            var id = lines.append("div");
-            id.classed("id", true);
-
-            id.append('div').classed("timestamp", true).text(function (item) { 
-                return item.timestamp; 
-            });
-
-            id.append('img').classed("face", true).attr("src", function (item) {
-                return "https://minotar.net/helm/" + encodeURIComponent(item.nick) + "/16" 
-            });
-
-            id.append('span').classed("nick", true).text(function (item) { 
-                return item.nick 
-            });
-            
-            lines.filter(function (item) { 
-                return item.action == 'gained'; 
-            }).append('div').classed("achievement", true).text(function (item) {
-                return item.message; 
-            });
-
-            lines.filter(function (item) { 
-                return item.action != 'gained' && 
-                    item.action != 'join' && 
-                    item.action != 'leave'; 
-            }).append('div').classed("message", true).text(function (item) { 
-                return item.message; 
-            });
-        });
-    }
-    setInterval(refreshOnline, 30000);
-    setInterval(refreshChat, 30000);
-    refreshOnline();
-    refreshChat();
-
-    function refreshFeed(feed, elem) {
-        d3.json("http://gdata.youtube.com/feeds/api/playlists/" + encodeURIComponent(feed) + "?v=2&alt=json&orderby=published&max-results=10", function (error, response) {
-            var videos = elem;
-            var latest_eps = d3.select("#latest-episodes");
-            var now = new Date();
-            for (var i in response.feed.entry) {
-                var item = response.feed.entry[i];
-                var date = new Date(item.published.$t);
-                var daysOld = (now.getTime() - date.getTime()) / 86400000;
-                var video = videos.append('li').classed("video", true);
-                dateString = date.toLocaleString();
-                video.append('a').attr('href', item.media$group.media$player.url).append('img').classed("thumb", true).attr('src', item.media$group.media$thumbnail[0].url);
-                video.append('div').classed("date", true).text(dateString);
-                video.append('a').attr('href', item.media$group.media$player.url).append('span').classed("title", true).text(item.title.$t);
-
-                if (daysOld < 14) {
-                    d3.select(latest_eps.node().parentNode).classed("hidden", false);
-                    var latest = latest_eps.append('li').classed("video", true);
-                    latest.append('a').attr('href', item.media$group.media$player.url).append('img').classed("thumb", true).attr('src', item.media$group.media$thumbnail[0].url);
-                    latest.append('div').classed("date", true).text(dateString);
-                    latest.append('a').attr('href', item.media$group.media$player.url).append('span').classed("title", true).text(item.title.$t);
-                }
-            }
-        });
-    }
-
-    refreshFeed("PLgZTE3QuO6ciOrwswRjKrdWaxmwl6Rju-", d3.select("#einarjh"));
-    refreshFeed("PLJ-BangiE09Km8BdY6LOIk0eI8aiaxy2X", d3.select("#atilla"));
-    refreshFeed("PLv1yKTdPlkmNpcXyUsEsD67OyW6pQNpe8", d3.select("#sakarias"));
-    refreshFeed("PLpx91rTNMa_NvPVxIh9MSVx4N0rUOtWWw", d3.select("#ueland"));
-    refreshFeed("PLhkTdvJLhSE1ZCRQyd7cgH3IDbUwaaj2z", d3.select("#simeng"));
-
-    function loadTopList(id) {
-        if (document.querySelector(id).children.length == 0) {
-            d3.json("json/stats/top_lists.json", function (error, lists) {
-                var node = d3.select(id);
-                for (var list in lists) {
-                    var box = node.append('div').classed('box', true);
-                    box.append("h2").text(list);
-
-                    var itemElem = box.append('ol').selectAll('li').data(lists[list]).enter().append('li');
-                    itemElem.append("img").classed("face", true).attr("src", function (item) { return "https://minotar.net/helm/" + item.player + "/16"; }).attr("title", function (item) { return item.player; }).attr("alt", function (item) { return item.player; });
-                    itemElem.append("span").classed("player", true).text(function(item) { return item.player; });
-                    itemElem.append("span").classed("value", true).text(function(item) { return item.value; });
-                }
-            });
-        }
-    }
-
-    function selectMenuItem(item) {
-        var menu = d3.select(item.parentNode.parentNode);
-        menu.selectAll(".selected").classed("selected", false);
-        d3.select(item.parentNode).classed("selected", true);
-		d3.selectAll(".content>.selected").classed("selected", false);
-
-		var selected = d3.select(item).attr("href");
-		d3.select(selected + "-container").classed("selected", true);
-
-		if (selected == "#toplist")
-			loadTopList("#toplist-container");
-		if (selected == "#graph")
-			d3Vis("#graph-container");
-    }
-
-	d3.selectAll(".menu a").on("click", function (evt) {
-        selectMenuItem(this);
-	});
-    if (location.hash.substring(0,1) == "#") 
-		selectMenuItem(d3.select('.menu a[href="' + location.hash + '"]')[0][0]);
-
-    loadTopList("#toplist-container");
-    d3Vis("#graph-container");
-</script>
     <p>
         <div class="footer">&nbsp;</div>
     </p>

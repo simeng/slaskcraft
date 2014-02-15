@@ -16,6 +16,7 @@ def get_top_list(players, stat_key):
 
 	return [{"player": key, "value": occurances[key]} for key in occurances_sorted]
 
+
 players = json.loads(open(os.path.join(base_dir, "../www/json/stats/allplayers.json")).read())
 
 top_list = {
@@ -27,5 +28,7 @@ top_list = {
 	"mined_diamond_ore": get_top_list(players, "stat.mineBlock.56"),
 	"mined_lapis_ore": get_top_list(players, "stat.mineBlock.21")
 }
+
+open(os.path.join(base_dir, "../www/json/players.json"), "w+").write(json.dumps(players.keys()))
 
 open(os.path.join(base_dir, "../www/json/stats/top_lists.json"), "w+").write(json.dumps(top_list))
