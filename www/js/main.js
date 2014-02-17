@@ -2,6 +2,19 @@
  * Main JS code for slask
  */
 (function () {
+    function loadUser(container, nick) {
+        var elem = d3.select(container);
+        elem.select('.image').attr('src', "https://minotar.net/helm/" + nick + "/64");
+        elem.select('.nick').text(nick);
+
+        d3.json("/json/stats/minecraft.slaskete.net/json/stats/" + nick + ".json", function (response) {
+            var stats = elem.select(".stats");
+            stats[0][0].innerHTML = '';
+            var biomes = stats.append("li");
+            biomes.append("label").text('Utforsket');
+            biomes.append("ul").selectAll("li").data(response['achievement.exploreAllBiomes'].progress).enter().append("li").text(function (explored) { return explored; });
+        });
+    }
     function loadGraphs(container) {
         if (document.querySelector(container).children.length != 0)
             return;
@@ -140,18 +153,22 @@
      * Show page containers when selecting menu items
      */
     function selectMenuItem(item) {
-        var menu = d3.select(item.parentNode.parentNode);
+        var menu = d3.select(item.parentNode.parentNode.parentNode);
         menu.selectAll(".selected").classed("selected", false);
         d3.select(item.parentNode).classed("selected", true);
 		d3.selectAll(".content>.selected").classed("selected", false);
 
 		var selected = d3.select(item).attr("href");
-		d3.select(selected + "-container").classed("selected", true);
+        var params = selected.split('|');
 
-		if (selected == "#toplist")
+		d3.select(params[0] + "-container").classed("selected", true);
+
+		if (params[0] == "#toplist")
 			loadTopList("#toplist-container");
-		if (selected == "#graph")
+		if (params[0] == "#graph")
 			loadGraphs("#graph-container");
+		if (params[0] == "#user")
+			loadUser("#user-container", params[1]);
     }
 
     /**
@@ -212,15 +229,18 @@
         });
     }
 
-    function loadPlayerLinks() {
+    function loadPlayerLinks(callback) {
         d3.json("/json/players.json", function(err, players) {
             var player = d3.select(".players").selectAll(".player").data(players).enter()
                 .append("li").classed("player", true);
 
-            player.append("img").attr("src", function (nick) { return "https://minotar.net/helm/" + encodeURIComponent(nick) + "/32"; });
+            var link = player.append("a");
+            link.attr("title", function (nick) { return nick; })
+                .attr("href", function (nick) { return "#user|" + nick; });
+            link.append("img").attr("src", function (nick) { return "https://minotar.net/helm/" + encodeURIComponent(nick) + "/32"; });
 
             player.attr("title", function(nick) { return nick });
-            refreshOnline();
+            callback();
         });
     }
 
@@ -260,14 +280,17 @@
     }
 
     d3.select(window).on("load", function (evt) {
-        d3.selectAll(".menu a").on("click", function (evt) {
-            selectMenuItem(this);
-        });
-        if (location.hash.substring(0,1) == "#") 
-            selectMenuItem(d3.select('.menu a[href="' + location.hash + '"]')[0][0]);
         d3.selectAll(".youtubefeed").each(refreshFeed);
 
-        loadPlayerLinks();
+        loadPlayerLinks(function () {
+            refreshOnline();
+            if (location.hash.substring(0,1) == "#") {
+                selectMenuItem(d3.select('.menu a[href="' + location.hash + '"]')[0][0]);
+            }
+            d3.selectAll(".menu a").on("click", function () {
+                selectMenuItem(this);
+            });
+        });
         setInterval(refreshOnline, 30000);
         setInterval(refreshChat, 30000);
         refreshChat();

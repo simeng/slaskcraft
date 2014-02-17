@@ -11,28 +11,30 @@
 </head>
 
 <body>
-    <div class="header">
+    <header>
         <img src="img/slaskcraft.png" alt="Slaskcraft">
-        <ul class="players">
-        </ul>
-        <ul class="menu">
-            <li class="item selected">
-                <a href="#home">Forside</a>
-            </li>
-            <li class="item">
-                <a href="#toplist">Toppliste</a>
-            </li>
-            <li class="item">
-                <a href="#graph">Grafer</a>
-            </li>
-            <li class="item">
-                <a href="#download">Nedlastning</a>
-            </li>
-            <li class="item">
-                <a href="http://kart.slaskcraft.net/#/230/64/259/-2/0/0">Kart</a>
-            </li>
-        </ul>
-    </div>
+        <div class="menu">
+            <ul class="players">
+            </ul>
+            <ul class="main">
+                <li class="item selected">
+                    <a href="#home">Forside</a>
+                </li>
+                <li class="item">
+                    <a href="#toplist">Toppliste</a>
+                </li>
+                <li class="item">
+                    <a href="#graph">Grafer</a>
+                </li>
+                <li class="item">
+                    <a href="#download">Nedlastning</a>
+                </li>
+                <li class="item">
+                    <a href="http://kart.slaskcraft.net/#/230/64/259/-2/0/0">Kart</a>
+                </li>
+            </ul>
+        </div>
+    </header>
 
     <div class="chat">
         <div class="container">
@@ -120,6 +122,14 @@
         </div>
         <div id="graph-container">
         </div>
+        <div id="user-container">
+            <div class="profile">
+                <img class="image" src="" />
+                <h2 class="nick"></h2>
+            </div>
+            <ul class="stats">
+            </ul>
+        </div>
         <div id="download-container" class="page">
             <h2>Last ned verdenfilen til en tidligere sesong med Slaskcraft</h2>
             <a href="http://nedlasting.slaskcraft.net/Slaskcraft%20Sesong%201.zip">Slaskcraftverden, sesong 1</a> (338 MB)
@@ -164,9 +174,7 @@
         </div>
     </div>
 
-    <p>
-        <div class="footer">&nbsp;</div>
-    </p>
+    <div class="footer">&nbsp;</div>
 
     <!-- Google Analytics --> 
     <script> (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o), m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m) })(window,document,'script','//www.google-analytics.com/analytics.js','ga'); ga('create', 'UA-45629478-1'); // Erstatt med din egen område-ID. 
