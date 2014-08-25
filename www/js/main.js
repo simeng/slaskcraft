@@ -230,17 +230,17 @@
     }
 
     function loadPlayerLinks(callback) {
-        d3.json("/json/players.json", function(err, players) {
+        d3.json("/json/stats/minecraft.slaskete.net/json/stats/whitelist.json", function(err, players) {
             var player = d3.select(".players").selectAll(".player").data(players).enter()
                 .append("li").classed("player", true);
 
             var link = player.append("a");
-            link.attr("title", function (nick) { return nick; })
-                .attr("href", function (nick) { return "#user|" + nick; });
-            link.append("img").attr("src", function (nick) { return "https://minotar.net/helm/" + encodeURIComponent(nick) + "/32"; });
+            link.attr("title", function (p) { return p.name; })
+                .attr("href", function (p) { return "#user|" + p.name; });
+            link.append("img").attr("src", function (p) { return "https://minotar.net/helm/" + encodeURIComponent(p.name) + "/32"; });
 
-            player.attr("title", function(nick) { return nick });
-            callback();
+            player.attr("title", function(p) { return p.name; });
+            callback(players);
         });
     }
 

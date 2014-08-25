@@ -68,6 +68,18 @@ body {
   margin: 0px;
 }
 
+@font-face {
+    font-family: PincoyaBlack;
+    src: url("pincoyablack.otf") format("opentype");
+}
+
+header .logo {
+    font-family: PincoyaBlack;
+    font-size: 64px;
+    color: white;
+    text-shadow: 3px 3px black;
+}
+
 header {
 	padding: 10px 0 0 0;
 	background-color: #658F40;
