@@ -37,6 +37,9 @@ top_list = {
 	"played_minutes": get_top_list(players, "stat.playOneMinute"),
 	"damage_taken": get_top_list(players, "stat.damageTaken"),
 	"mined_diamond_ore": get_top_list(players, "stat.mineBlock.56"),
+	"damage_dealt": get_top_list(players, "stat.damageDealt"),
+	"treasure_fished": get_top_list(players, "stat.treasureFished"),
+	"bats_killed": get_top_list(players, "stat.killEntity.Bat"),
 	"mined_lapis_ore": get_top_list(players, "stat.mineBlock.21")
 }
 
