@@ -177,7 +177,7 @@
     function refreshOnline() {
         d3.json("http://minecraft.slaskete.net/json/users.json", function (error, online_players) {
             d3.selectAll(".players .player").classed("online", function (elem) {
-                return online_players.some(function (player) { return player == elem; });
+                return online_players.some(function (player) { return player == elem.name; });
             });
         });
     }
@@ -260,6 +260,8 @@
             var now = new Date();
             for (var i in response.feed.entry) {
                 var item = response.feed.entry[i];
+                if (!('media$player' in item.media$group))
+                    continue;
                 var date = new Date(item.published.$t);
                 var daysOld = (now.getTime() - date.getTime()) / 86400000;
                 var video = videos.append('li').classed("video", true);
