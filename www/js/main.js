@@ -4,7 +4,7 @@
 (function () {
     function loadUser(container, nick) {
         var elem = d3.select(container);
-        elem.select('.image').attr('src', "https://minotar.net/helm/" + nick + "/64");
+        elem.select('.image').attr('src', "/img/helms/" + nick + ".png");
         elem.select('.nick').text(nick);
 
         d3.json("/json/stats/minecraft.slaskete.net/json/stats/" + nick + ".json", function (response) {
@@ -120,7 +120,7 @@
                     .attr("y", function(d) { return height; })
                     .attr("height", function(d) { return 0; })
                     .attr("xlink:href", function(d) {
-                        return "https://minotar.net/helm/"+d.player+"/32";
+                        return "/img/helms/"+d.player+".png";
                     })
                     .transition().delay(function (d,i){ return 300;})
                     .duration(1000)
@@ -141,7 +141,7 @@
                     box.append("h2").text(list);
 
                     var itemElem = box.append('ol').selectAll('li').data(lists[list]).enter().append('li');
-                    itemElem.append("img").classed("face", true).attr("src", function (item) { return "https://minotar.net/helm/" + item.player + "/16"; }).attr("title", function (item) { return item.player; }).attr("alt", function (item) { return item.player; });
+                    itemElem.append("img").classed("face", true).attr("src", function (item) { return "/img/helms/" + item.player + ".png"; }).attr("title", function (item) { return item.player; }).attr("alt", function (item) { return item.player; });
                     itemElem.append("span").classed("player", true).text(function(item) { return item.player; });
                     itemElem.append("span").classed("value", true).text(function(item) { return item.value; });
                 }
@@ -206,7 +206,7 @@
             });
 
             id.append('img').classed("face", true).attr("src", function (item) {
-                return "https://minotar.net/helm/" + encodeURIComponent(item.nick) + "/16" 
+                return "/img/helms/" + encodeURIComponent(item.nick) + ".png" 
             });
 
             id.append('span').classed("nick", true).text(function (item) { 
@@ -237,7 +237,7 @@
             var link = player.append("a");
             link.attr("title", function (p) { return p.name; })
                 .attr("href", function (p) { return "#user|" + p.name; });
-            link.append("img").attr("src", function (p) { return "https://minotar.net/helm/" + encodeURIComponent(p.name) + "/32"; });
+            link.append("img").attr("src", function (p) { return "/img/helms/" + encodeURIComponent(p.name) + ".png"; });
 
             player.attr("title", function(p) { return p.name; });
             callback(players);
