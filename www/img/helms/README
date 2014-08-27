@@ -1,0 +1,2 @@
+This dir should be writable for the cron users that run bin/update_avatars.py
+Helms are fetched by that script and written to this dir
