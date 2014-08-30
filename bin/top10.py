@@ -15,8 +15,11 @@ def get_top_list(players, stat_key):
 		if uuid == 'whitelist':
 			continue
 		name = players['whitelist'][uuid]['name']
-		if stat_key in player:
-			occurances[name] = players[uuid][stat_key]
+        for k, v in player.items():
+            if k.find(stat_key) == 0:
+                if not name in occurances:
+                    occurances[name] = 0
+                occurances[name] += players[uuid][k]
 
 	occurances_sorted = sorted(occurances, key=occurances.__getitem__, reverse=True)
 
@@ -41,6 +44,7 @@ top_list = {
 	"treasure_fished": get_top_list(players, "stat.treasureFished"),
 	"bats_killed": get_top_list(players, "stat.killEntity.Bat"),
 	"mined_lapis_ore": get_top_list(players, "stat.mineBlock.minecraft.lapis_ore"),
+	"blocks_mined": get_top_list(players, "stat.mineBlock."),
 	"time_since_death": get_top_list(players, "stat.timeSinceDeath")
 }
 
