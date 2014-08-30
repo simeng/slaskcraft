@@ -36,11 +36,12 @@ top_list = {
 	"player_kills": get_top_list(players, "stat.playerKills"),
 	"played_minutes": get_top_list(players, "stat.playOneMinute"),
 	"damage_taken": get_top_list(players, "stat.damageTaken"),
-	"mined_diamond_ore": get_top_list(players, "stat.mineBlock.56"),
+	"mined_diamond_ore": get_top_list(players, "stat.mineBlock.minecraft.diamond_ore"),
 	"damage_dealt": get_top_list(players, "stat.damageDealt"),
 	"treasure_fished": get_top_list(players, "stat.treasureFished"),
 	"bats_killed": get_top_list(players, "stat.killEntity.Bat"),
-	"mined_lapis_ore": get_top_list(players, "stat.mineBlock.21")
+	"mined_lapis_ore": get_top_list(players, "stat.mineBlock.minecraft.lapis_ore"),
+	"time_since_death": get_top_list(players, "stat.timeSinceDeath")
 }
 
 non_cam_players = [player for player in players if 'stat.craftItem.58' in players[player]]
