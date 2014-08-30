@@ -37,6 +37,7 @@ top_list = {
 	"deaths": get_top_list(players, "stat.deaths"),
 	"jumps": get_top_list(players, "stat.jump"),
 	"player_kills": get_top_list(players, "stat.playerKills"),
+	"enderman_kills": get_top_list(players, "stat.killEntity.Enderman"),
 	"played_minutes": get_top_list(players, "stat.playOneMinute"),
 	"damage_taken": get_top_list(players, "stat.damageTaken"),
 	"mined_diamond_ore": get_top_list(players, "stat.mineBlock.minecraft.diamond_ore"),
@@ -45,6 +46,11 @@ top_list = {
 	"bats_killed": get_top_list(players, "stat.killEntity.Bat"),
 	"mined_lapis_ore": get_top_list(players, "stat.mineBlock.minecraft.lapis_ore"),
 	"blocks_mined": get_top_list(players, "stat.mineBlock."),
+	"items_crafted": get_top_list(players, "stat.craftItem."),
+	"fallen_cm": get_top_list(players, "stat.fallOneCm"),
+	"dive_cm": get_top_list(players, "stat.diveOneCm"),
+	"dive_cm": get_top_list(players, "stat.diveOneCm"),
+	"villager_trades": get_top_list(players, "stat.tradedWithVillager"),
 	"time_since_death": get_top_list(players, "stat.timeSinceDeath")
 }
 
