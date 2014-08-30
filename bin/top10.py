@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# :vim:set noet:ts=4:
+# vim: set noet:ts=4:
 
 import json
 import os
@@ -12,7 +12,7 @@ def get_top_list(players, stat_key):
 	occurances = {}
 
 	for uuid, player in players.items():
-		if uuid == 'whitelist':
+		if uuid == 'whitelist' or uuid not in players['whitelist']:
 			continue
 		name = players['whitelist'][uuid]['name']
         for k, v in player.items():
@@ -27,9 +27,12 @@ def get_top_list(players, stat_key):
 
 players = json.loads(open(os.path.join(base_dir, "../www/json/stats/allplayers.json")).read())
 
+cam_accounts = ['Notch', 'ShreeyamGFX', 'Coestar', 'Dinnerbone', 'UelandCam', 'AtillaTari', 'einarcam', 'hildenae', 'sakecam', 'afarberg'];
+
 uuid_indexed_players = {}
 for p in players['whitelist']:
-	uuid_indexed_players[p['uuid']] = p
+	if p['name'] not in cam_accounts:
+		uuid_indexed_players[p['uuid']] = p
 
 players['whitelist'] = uuid_indexed_players
 

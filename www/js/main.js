@@ -231,6 +231,12 @@
 
     function loadPlayerLinks(callback) {
         d3.json("/json/stats/minecraft.slaskete.net/json/stats/whitelist.json", function(err, players) {
+            var cam_accounts = ['Notch', 'ShreeyamGFX', 'Coestar', 'Dinnerbone', 'UelandCam', 'AtillaTari', 'einarcam', 'hildenae', 'sakecam', 'afarberg'];
+            players = players.filter(function (elem) {
+                return !cam_accounts.some(function (key) {
+                    return elem.name == key;
+                });    
+            });
             var player = d3.select(".players").selectAll(".player").data(players).enter()
                 .append("li").classed("player", true);
 
