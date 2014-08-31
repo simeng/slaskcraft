@@ -165,7 +165,7 @@ div.footer {
 .youtubefeed .video {
 	font-size: 12px;
 	width: 280px;
-    min-height: 50px;
+    min-height: 55px;
 }
 .youtubefeed .video a:hover {
 	text-decoration: underline;
