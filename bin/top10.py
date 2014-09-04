@@ -37,24 +37,74 @@ for p in players['whitelist']:
 players['whitelist'] = uuid_indexed_players
 
 top_list = {
-	"deaths": get_top_list(players, "stat.deaths"),
-	"jumps": get_top_list(players, "stat.jump"),
-	"player_kills": get_top_list(players, "stat.playerKills"),
-	"enderman_kills": get_top_list(players, "stat.killEntity.Enderman"),
-	"played_minutes": get_top_list(players, "stat.playOneMinute"),
-	"damage_taken": get_top_list(players, "stat.damageTaken"),
-	"mined_diamond_ore": get_top_list(players, "stat.mineBlock.minecraft.diamond_ore"),
-	"damage_dealt": get_top_list(players, "stat.damageDealt"),
-	"treasure_fished": get_top_list(players, "stat.treasureFished"),
-	"bats_killed": get_top_list(players, "stat.killEntity.Bat"),
-	"mined_lapis_ore": get_top_list(players, "stat.mineBlock.minecraft.lapis_ore"),
-	"blocks_mined": get_top_list(players, "stat.mineBlock."),
-	"items_crafted": get_top_list(players, "stat.craftItem."),
-	"fallen_cm": get_top_list(players, "stat.fallOneCm"),
-	"dive_cm": get_top_list(players, "stat.diveOneCm"),
-	"dive_cm": get_top_list(players, "stat.diveOneCm"),
-	"villager_trades": get_top_list(players, "stat.tradedWithVillager"),
-	"time_since_death": get_top_list(players, "stat.timeSinceDeath")
+	"deaths": {
+        "title": "Dødd",
+        "entries": get_top_list(players, "stat.deaths")
+    },
+	"jumps": {
+        "title": "Hoppet",
+        "entries": get_top_list(players, "stat.jump")
+    },
+	"player_kills": {
+        "title": "Drept andre",
+        "entries": get_top_list(players, "stat.playerKills")
+    },
+	"enderman_kills": {
+        "title": "Drepte Endermenn",
+        "entries": get_top_list(players, "stat.killEntity.Enderman")
+    },
+	"played_minutes": {
+        "title": "Spilletid (min)",
+        "entries": get_top_list(players, "stat.playOneMinute")
+    },
+	"damage_taken": {
+        "title": "Skade motatt",
+        "entries": get_top_list(players, "stat.damageTaken")
+    },
+	"mined_diamond_ore": {
+        "title": "Diamanter utgravd",
+        "entries": get_top_list(players, "stat.mineBlock.minecraft.diamond_ore")
+    },
+	"damage_dealt": {
+        "title": "Skade gjort",
+        "entries": get_top_list(players, "stat.damageDealt")
+    },
+	"treasure_fished": {
+        "title": "Fiskede skatter",
+        "entries": get_top_list(players, "stat.treasureFished")
+    },
+	"bats_killed": {
+        "title": "Flaggermus drept",
+        "entries": get_top_list(players, "stat.killEntity.Bat")
+    },
+	"mined_lapis_ore": {
+        "title": "Lapis utgravd",
+        "entries": get_top_list(players, "stat.mineBlock.minecraft.lapis_ore")
+    },
+	"blocks_mined": {
+        "title": "Blokker utgravd",
+        "entries": get_top_list(players, "stat.mineBlock.")
+    },
+	"items_crafted": {
+        "title": "Ting bygget",
+        "entries": get_top_list(players, "stat.craftItem.")
+    },
+	"fallen_cm": {
+        "title": "Falt (cm)",
+        "entries": get_top_list(players, "stat.fallOneCm")
+    },
+	"dive_cm": {
+        "title": "Dykket (cm)",
+        "entries": get_top_list(players, "stat.diveOneCm")
+    },
+	"villager_trades": {
+        "title": "Byttet med landsbyborgere",
+        "entries": get_top_list(players, "stat.tradedWithVillager")
+    },
+	"time_since_death": {
+        "title": "Tid siden død (eller start)",
+        "entries": get_top_list(players, "stat.timeSinceDeath")
+    }
 }
 
 non_cam_players = [player for player in players if 'stat.craftItem.58' in players[player]]

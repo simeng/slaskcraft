@@ -44,10 +44,11 @@
             }
 
             var played = {}
-            json['played_minutes'].map(function(d) { played[d.player] = d.value; });
+            json['played_minutes']['entries'].map(function(d) { played[d.player] = d.value; });
             
             for (var type in json) {
-                var data = json[type];
+                var data = json[type].entries;
+                var title = json[type].title;
 
                 var svg = d3.select(container).append("svg")
                     .attr("width", width + margin.left + margin.right)
@@ -81,7 +82,7 @@
                     .attr("y", width/2)
                     .attr("dy", ".71em")
                     .style("text-anchor", "end")
-                    .text(type);
+                    .text(title);
 
                 /* The bars */
                 svg.selectAll(".bar")
@@ -137,10 +138,12 @@
             d3.json("json/stats/top_lists.json", function (error, lists) {
                 var node = d3.select(id);
                 for (var list in lists) {
+                    var title = lists[list].title;
+                    var data = lists[list].entries;
                     var box = node.append('div').classed('box', true);
-                    box.append("h2").text(list);
+                    box.append("h2").text(title);
 
-                    var itemElem = box.append('ol').selectAll('li').data(lists[list]).enter().append('li');
+                    var itemElem = box.append('ol').selectAll('li').data(data).enter().append('li');
                     itemElem.append("img").classed("face", true).attr("src", function (item) { return "/img/helms/" + item.player + ".png"; }).attr("title", function (item) { return item.player; }).attr("alt", function (item) { return item.player; });
                     itemElem.append("span").classed("player", true).text(function(item) { return item.player; });
                     itemElem.append("span").classed("value", true).text(function(item) { return item.value; });
