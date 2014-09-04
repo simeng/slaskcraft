@@ -231,7 +231,7 @@
 
     function loadPlayerLinks(callback) {
         d3.json("/json/stats/minecraft.slaskete.net/json/stats/whitelist.json", function(err, players) {
-            var cam_accounts = ['Notch', 'ShreeyamGFX', 'Coestar', 'Dinnerbone', 'UelandCam', 'AtillaTari', 'einarcam', 'hildenae', 'sakecam', 'afarberg'];
+            var cam_accounts = ['Notch', 'ShreeyamGFX', 'Coestar', 'Dinnerbone', 'UelandCam', 'AtillaTari', 'einarcam', 'hildenae', 'sakecam', 'afarberg', 'Hanyu_Furude'];
             players = players.filter(function (elem) {
                 return !cam_accounts.some(function (key) {
                     return elem.name == key;
