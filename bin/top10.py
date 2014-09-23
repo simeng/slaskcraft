@@ -65,6 +65,10 @@ top_list = {
         "title": "Diamanter utgravd",
         "entries": get_top_list(players, "stat.mineBlock.minecraft.diamond_ore")
     },
+	"mined_obsidian": {
+        "title": "Obsidian utgravd",
+        "entries": get_top_list(players, "stat.mineBlock.minecraft.obsidian")
+    },
 	"damage_dealt": {
         "title": "Skade gjort",
         "entries": get_top_list(players, "stat.damageDealt")
@@ -98,7 +102,7 @@ top_list = {
         "entries": get_top_list(players, "stat.diveOneCm")
     },
 	"villager_trades": {
-        "title": "Byttet med landsbyborgere",
+        "title": "Handlet med landsbyborgere",
         "entries": get_top_list(players, "stat.tradedWithVillager")
     },
 	"time_since_death": {
