@@ -1,8 +1,8 @@
 #!/bin/bash
 BASE=`dirname $0`
 
-if [ ! -d $BASE/../www/json/stats/ ]; then
-    mkdir $BASE/../www/json/stats/ || exit "Error making $BASE/../www/json/stats/"
+if [ ! -d $BASE/../www/json/stats/archive/ ]; then
+    mkdir -p $BASE/../www/json/stats/archive/ || exit "Error making $BASE/../www/json/stats/archive/"
 fi
 
 cd $BASE/../www/json/stats/
