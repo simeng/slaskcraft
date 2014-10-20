@@ -1,6 +1,10 @@
 #!/bin/bash
 BASE=`dirname $0`
 
+if [ ! -d $BASE/../www/json/stats/ ]; then
+    mkdir $BASE/../www/json/stats/ || exit "Error making $BASE/../www/json/stats/"
+fi
+
 cd $BASE/../www/json/stats/
 wget -q -r --no-parent --reject "index.html*" 'http://minecraft.slaskete.net/json/stats/'
 
@@ -23,5 +27,6 @@ done
 
 ( head -n -1 $tempfile ; echo "}" ) > allplayers.json
 
+cd - >/dev/null
 cd $BASE
 python top10.py
