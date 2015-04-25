@@ -2,12 +2,12 @@
  * Main JS code for slask
  */
 (function () {
-    function loadUser(container, nick) {
+    function loadUser(container, nick, uuid) {
         var elem = d3.select(container);
         elem.select('.image').attr('src', "/img/helms/" + nick + ".png");
         elem.select('.nick').text(nick);
 
-        d3.json("/json/stats/minecraft.slaskete.net/json/stats/" + nick + ".json", function (response) {
+        d3.json("/json/stats/minecraft.slaskete.net/json/stats/" + uuid + ".json", function (response) {
             var stats = elem.select(".stats");
             stats[0][0].innerHTML = '';
             var biomes = stats.append("li");
@@ -171,7 +171,7 @@
 		if (params[0] == "#graph")
 			loadGraphs("#graph-container");
 		if (params[0] == "#user")
-			loadUser("#user-container", params[1]);
+			loadUser("#user-container", params[1], item.parentNode.getAttribute('data-uuid'));
     }
 
     /**
@@ -249,6 +249,7 @@
             link.append("img").attr("src", function (p) { return "/img/helms/" + encodeURIComponent(p.name) + ".png"; });
 
             player.attr("title", function(p) { return p.name; });
+            player.attr("data-uuid", function(p) { return p.uuid; });
             callback(players);
         });
     }
