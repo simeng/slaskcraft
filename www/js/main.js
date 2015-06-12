@@ -284,7 +284,7 @@
                 if (daysOld < 14) {
                     d3.select(latest_eps.node().parentNode).classed("hidden", false);
                     var latest = latest_eps.append('li').classed("video", true);
-                    latest.append('a').attr('href', videoUrl).append('img').classed("thumb", true).attr('src', item.snippet.thumbnail.default.url);
+                    latest.append('a').attr('href', videoUrl).append('img').classed("thumb", true).attr('src', item.snippet.thumbnails.default.url);
                     latest.append('div').classed("date", true).text(dateString);
                     latest.append('a').attr('href', videoUrl).append('span').classed("title", true).text(item.snippet.title);
                 }
