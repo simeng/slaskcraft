@@ -263,29 +263,30 @@
         if (!feed)
             return;
 
-        d3.json("http://gdata.youtube.com/feeds/api/playlists/" + encodeURIComponent(feed) + "?v=2&alt=json&orderby=published&max-results=10", function (error, response) {
+        var apiUrl = 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet,contentDetails&key=AIzaSyD2-keFi8faC0wWxzDKuDUH4HpEvE72i74&playlistId=';
+
+        d3.json(apiUrl + encodeURIComponent(feed), function (error, response) {
             if (!response)
                 return;
             var latest_eps = d3.select("#latest-episodes");
             var now = new Date();
-            for (var i in response.feed.entry) {
-                var item = response.feed.entry[i];
-                if (!('media$player' in item.media$group))
-                    continue;
-                var date = new Date(item.published.$t);
+            for (var i in response.items) {
+                var item = response.items[i];
+                var videoUrl = item.contentDetails.videoId;
+                var date = new Date(item.publishedAt);
                 var daysOld = (now.getTime() - date.getTime()) / 86400000;
                 var video = videos.append('li').classed("video", true);
                 dateString = date.toLocaleString();
-                video.append('a').attr('href', item.media$group.media$player.url).append('img').classed("thumb", true).attr('src', item.media$group.media$thumbnail[0].url);
+                video.append('a').attr('href', videoUrl).append('img').classed("thumb", true).attr('src', item.snippet.thumbnails.default.url);
                 video.append('div').classed("date", true).text(dateString);
-                video.append('a').attr('href', item.media$group.media$player.url).append('span').classed("title", true).text(item.title.$t);
+                video.append('a').attr('href', videoUrl).append('span').classed("title", true).text(item.snippet.title);
 
                 if (daysOld < 14) {
                     d3.select(latest_eps.node().parentNode).classed("hidden", false);
                     var latest = latest_eps.append('li').classed("video", true);
-                    latest.append('a').attr('href', item.media$group.media$player.url).append('img').classed("thumb", true).attr('src', item.media$group.media$thumbnail[0].url);
+                    latest.append('a').attr('href', videoUrl).append('img').classed("thumb", true).attr('src', item.snippet.thumbnail.default.url);
                     latest.append('div').classed("date", true).text(dateString);
-                    latest.append('a').attr('href', item.media$group.media$player.url).append('span').classed("title", true).text(item.title.$t);
+                    latest.append('a').attr('href', videoUrl).append('span').classed("title", true).text(item.title);
                 }
             }
         });
