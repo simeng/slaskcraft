@@ -272,8 +272,8 @@
             var now = new Date();
             for (var i in response.items) {
                 var item = response.items[i];
-                var videoUrl = item.contentDetails.videoId;
-                var date = new Date(item.publishedAt);
+                var videoUrl = 'https://www.youtube.com/watch?v=' + item.contentDetails.videoId;
+                var date = new Date(item.snippet.publishedAt);
                 var daysOld = (now.getTime() - date.getTime()) / 86400000;
                 var video = videos.append('li').classed("video", true);
                 dateString = date.toLocaleString();
@@ -286,7 +286,7 @@
                     var latest = latest_eps.append('li').classed("video", true);
                     latest.append('a').attr('href', videoUrl).append('img').classed("thumb", true).attr('src', item.snippet.thumbnail.default.url);
                     latest.append('div').classed("date", true).text(dateString);
-                    latest.append('a').attr('href', videoUrl).append('span').classed("title", true).text(item.title);
+                    latest.append('a').attr('href', videoUrl).append('span').classed("title", true).text(item.snippet.title);
                 }
             }
         });
