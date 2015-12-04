@@ -178,7 +178,7 @@
      * Update the who is online from minecraft export
      */
     function refreshOnline() {
-        d3.json("//minecraft.slaskete.net/json/users.json", function (error, online_players) {
+        d3.json("/slaskete/json/users.json", function (error, online_players) {
             d3.selectAll(".players .player").classed("online", function (elem) {
                 return online_players.some(function (player) { return player == elem.name; });
             });
@@ -189,7 +189,7 @@
      * Update the chat window from minecraft export
      */
     function refreshChat() {
-        d3.json("//minecraft.slaskete.net/json/chat.json", function (error, response) {
+        d3.json("/slaskete/json/chat.json", function (error, response) {
             var lines = d3.select(".chat .lines").selectAll('li');
             lines = lines.data(response.filter(function (item) {
                 return item.action != 'new_day' && 
