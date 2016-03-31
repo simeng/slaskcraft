@@ -234,7 +234,7 @@
 
     function loadPlayerLinks(callback) {
         d3.json("/json/players.json", function(err, players) {
-            var cam_accounts = ['Notch', 'ShreeyamGFX', 'Coestar', 'Dinnerbone', 'UelandCam', 'AtillaTari', 'einarcam', 'hildenae', 'sakecam', 'afarberg', 'Hanyu_Furude'];
+            var cam_accounts = ['Notch', 'ShreeyamGFX', 'Coestar', 'Dinnerbone', 'UelandCam', 'AtillaTari', 'einarcam', 'hildenae', 'sakecam', 'afarberg', 'Hanyu_Furude','Kagee_Kamera', 'Tonje', 'lineslus'];
             players = players.filter(function (elem) {
                 return !cam_accounts.some(function (key) {
                     return elem.name == key;
