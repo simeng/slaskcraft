@@ -27,7 +27,7 @@ def get_top_list(players, stat_key):
 
 players = json.loads(open(os.path.join(base_dir, "../www/json/stats/allplayers.json")).read())
 
-cam_accounts = ['Notch', 'ShreeyamGFX', 'Coestar', 'Dinnerbone', 'UelandCam', 'AtillaTari', 'einarcam', 'hildenae', 'sakecam', 'afarberg', 'Hanyu_Furude'];
+cam_accounts = ['Notch', 'ShreeyamGFX', 'Coestar', 'Dinnerbone', 'UelandCam', 'AtillaTari', 'einarcam', 'hildenae', 'sakecam', 'afarberg', 'Hanyu_Furude','Kagee_Kamera', 'Tonje', 'linselus'];
 
 uuid_indexed_players = {}
 for p in players['whitelist']:
